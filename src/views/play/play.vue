@@ -1,8 +1,12 @@
 <template>
   	<div class="play fullscreen">
 		This is the play area
-		<router-link to="/">Deck</router-link> |
-		<router-link to="/hand">Hand</router-link> 
+		<div class="left middle">
+			<router-link to="/">Deck</router-link>
+		</div>
+		<div class="bottom text-center">
+			<router-link to="/hand">Hand</router-link>
+		</div>
   	</div>
 </template>
 
@@ -16,5 +20,13 @@ export default class Play extends Vue {}
 <style lang="stylus" scoped>
 .play
 	background-color #1e6654
-	background-image url("https://www.transparenttextures.com/patterns/dark-stripes-light.png")
+	background-image url("/img/textures/dark-stripes-light.png")
+.bottom, .left
+	position absolute
+	bottom 0
+	left 0
+.bottom
+	right: 0
+.left
+	top: 0
 </style>

@@ -1,8 +1,14 @@
 <template>
   	<div class="hand">
 		This is the hand
-		<router-link to="/">Deck</router-link> |
-		<router-link to="/play">Play</router-link> 
+		<div class="top row">
+			<div class="col-xs-6 text-center">
+				<router-link to="/">Deck</router-link>
+			</div>
+			<div class="col-xs-6 text-center">
+				<router-link to="/play">Play</router-link>
+			</div>
+		</div>
   	</div>
 </template>
 
