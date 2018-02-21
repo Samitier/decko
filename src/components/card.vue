@@ -16,6 +16,7 @@
 
 <script lang="ts">
 import { Component, Vue } from 'vue-property-decorator'
+import {Getter, Action} from 'vuex-class'
 
 @Component
 export default class Card extends Vue {
@@ -23,15 +24,20 @@ export default class Card extends Vue {
 	private isMoving: boolean = false
 	private x: number = 0
 	private y: number = 0
+
 	private startx: number = 0
 	private starty: number = 0
 	
 	isFacingUp: boolean = false
 
+	@Getter coordinates: any;
+	@Action('moveCard') moveCard: any;
+
 	mounted() {
 		window.addEventListener('mousemove', this.move)
 		window.addEventListener('mouseup', this.stopMovement)
 	}
+
 	beforeDestroy () {
 		window.removeEventListener('mousemove', this.move)
 		window.removeEventListener('mouseup', this.stopMovement)
@@ -39,8 +45,8 @@ export default class Card extends Vue {
 
 	get style() {
 		return {
-			top: this.y + 'px',
-			left: this.x + 'px'
+			top: this.coordinates.y + 'px',
+			left: this.coordinates.x + 'px'
 		}
 	}
 
@@ -60,10 +66,16 @@ export default class Card extends Vue {
 
 	move(event: MouseEvent) {
 		if (!this.isMoving) return
-		this.x += (event.clientX - this.startx)
-		this.y += (event.clientY - this.starty)
-		this.startx = event.clientX
-		this.starty = event.clientY
+		else 
+			this.x = this.coordinates.x || 0
+			this.y = this.coordinates.y || 0
+			this.x += (event.clientX - this.startx)
+			this.y += (event.clientY - this.starty)
+			this.startx = event.clientX
+			this.starty = event.clientY
+			this.moveCard({x: this.x, y: this.y})
+		
+		 
 	}
 }
 </script>
