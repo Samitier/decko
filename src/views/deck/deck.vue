@@ -12,7 +12,7 @@
 
 <script lang="ts">
 import { Component, Vue } from 'vue-property-decorator'
-import {Getter, Action} from 'vuex-class'
+import { Getter } from 'vuex-class'
 import Card from "@/components/card.vue"
 
 @Component({

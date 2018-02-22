@@ -1,7 +1,7 @@
 <template>
   	<div 
 		class="card noselect" 
-		@dblclick="rotateCard"
+		@dblclick="flipCard"
 		@mousedown="startMovement"
 		:style="style"
 	>
@@ -52,7 +52,7 @@ export default class Card extends Vue {
 		}
 	}
 
-	rotateCard() {
+	flipCard() {
 		this.flipCard(this.card.id)
 		this.isFacingUp = !this.isFacingUp
 	}
