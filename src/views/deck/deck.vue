@@ -1,6 +1,6 @@
 <template>
-  	<div class="deck fullscreen">
-    	<card/>
+  	<div class="deck fullscreen" v-if="cards">
+    	<card v-for="card in cards" :card="card"/>
 		<div class="bottom text-center">
 			<router-link to="/hand">Hand</router-link>
 		</div>
@@ -12,12 +12,16 @@
 
 <script lang="ts">
 import { Component, Vue } from 'vue-property-decorator'
+import { Getter } from 'vuex-class'
 import Card from "@/components/card.vue"
 
 @Component({
 	components: { Card }
 })
-export default class Deck extends Vue {}
+
+export default class Deck extends Vue {
+	@Getter cards: any;
+}
 </script>
 
 <style lang="stylus" scoped>

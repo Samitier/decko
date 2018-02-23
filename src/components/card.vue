@@ -1,11 +1,11 @@
 <template>
   	<div 
 		class="card noselect" 
-		@dblclick="rotateCard"
+		@dblclick="flipCard"
 		@mousedown="startMovement"
 		:style="style"
 	>
-    	<div class="face" v-if="isFacingUp">
+    	<div class="face" v-if="card.isFacingUp">
 			the face of the card
 		</div>
     	<div class="back" v-else>
@@ -18,7 +18,9 @@
 import { Component, Vue } from 'vue-property-decorator'
 import {Getter, Action} from 'vuex-class'
 
-@Component
+@Component({
+	props: ['card']
+})
 export default class Card extends Vue {
 	
 	private isMoving: boolean = false
@@ -30,8 +32,8 @@ export default class Card extends Vue {
 	
 	isFacingUp: boolean = false
 
-	@Getter coordinates: any;
 	@Action('moveCard') moveCard: any;
+	@Action('flipCard') flipCard: any;
 
 	mounted() {
 		window.addEventListener('mousemove', this.move)
@@ -45,12 +47,13 @@ export default class Card extends Vue {
 
 	get style() {
 		return {
-			top: this.coordinates.y + 'px',
-			left: this.coordinates.x + 'px'
+			top: this.card.coordinates.y + 'px',
+			left: this.card.coordinates.x + 'px'
 		}
 	}
 
-	rotateCard() {
+	flipCard() {
+		this.flipCard(this.card.id)
 		this.isFacingUp = !this.isFacingUp
 	}
 
@@ -67,15 +70,19 @@ export default class Card extends Vue {
 	move(event: MouseEvent) {
 		if (!this.isMoving) return
 		else 
-			this.x = this.coordinates.x || 0
-			this.y = this.coordinates.y || 0
+			this.x = this.card.coordinates.x || 0
+			this.y = this.card.coordinates.y || 0
 			this.x += (event.clientX - this.startx)
 			this.y += (event.clientY - this.starty)
 			this.startx = event.clientX
 			this.starty = event.clientY
-			this.moveCard({x: this.x, y: this.y})
-		
-		 
+			this.moveCard({
+				id: this.card.id,
+				coordinates: {
+					x: this.x, 
+					y: this.y
+				}
+			})
 	}
 }
 </script>
@@ -90,6 +97,7 @@ border_radius = 4px
 	position absolute
 	width card_width
 	height card_height
+	border 1px solid grey
 	border-radius border_radius
 	background-color card_color
 </style>
