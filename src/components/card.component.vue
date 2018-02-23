@@ -1,7 +1,7 @@
 <template>
   	<div 
 		class="card noselect" 
-		@dblclick="flipCard"
+		@dblclick="onFlipCard"
 		@mousedown="startMovement"
 		:style="style"
 	>
@@ -15,17 +15,14 @@
 </template>
 
 <script lang="ts">
-import { Component, Vue } from 'vue-property-decorator'
-import {Getter, Action} from 'vuex-class'
+import { Component, Vue, Prop } from "vue-property-decorator"
+import { Getter, Action } from "vuex-class"
+import { Card } from "@/models/card.model"
 
-@Component({
-	props: ['card']
-})
-export default class Card extends Vue {
+@Component
+export default class CardComponent extends Vue {
 	
 	private isMoving: boolean = false
-	private x: number = 0
-	private y: number = 0
 
 	private startx: number = 0
 	private starty: number = 0
@@ -34,6 +31,8 @@ export default class Card extends Vue {
 
 	@Action('moveCard') moveCard: any;
 	@Action('flipCard') flipCard: any;
+
+	@Prop() card: Card
 
 	mounted() {
 		window.addEventListener('mousemove', this.move)
@@ -52,7 +51,7 @@ export default class Card extends Vue {
 		}
 	}
 
-	flipCard() {
+	onFlipCard() {
 		this.flipCard(this.card.id)
 		this.isFacingUp = !this.isFacingUp
 	}
@@ -69,20 +68,14 @@ export default class Card extends Vue {
 
 	move(event: MouseEvent) {
 		if (!this.isMoving) return
-		else 
-			this.x = this.card.coordinates.x || 0
-			this.y = this.card.coordinates.y || 0
-			this.x += (event.clientX - this.startx)
-			this.y += (event.clientY - this.starty)
-			this.startx = event.clientX
-			this.starty = event.clientY
-			this.moveCard({
-				id: this.card.id,
-				coordinates: {
-					x: this.x, 
-					y: this.y
-				}
-			})
+		const 	x = this.card.coordinates.x + (event.clientX - this.startx),
+				y = this.card.coordinates.y + (event.clientY - this.starty)
+		this.startx = event.clientX
+		this.starty = event.clientY
+		this.moveCard({
+			id: this.card.id,
+			coordinates: { x, y }
+		})
 	}
 }
 </script>

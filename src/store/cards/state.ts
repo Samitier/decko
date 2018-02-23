@@ -1,25 +1,25 @@
-import { CardModel } from '../../models/CardModel'
+import { Card } from "../../models/card.model"
 
 export default class State {
-	public cards: CardModel[];
+
+	public cards: Card[]
 
 	constructor() {
 		this.cards = []
 		this.getInitialCards()
 	}
 
-	getInitialCards() {
+	private getInitialCards() {
 		for (let i = 0; i < 10; i++) {
-			let newCard: CardModel = {
+			const newCard: Card = {
 				id: i,
 				coordinates: {
-				    x: i+10,
-				    y: i+10
+					x: i + 10,
+					y: i + 10,
 				},
-				isFacingUp: false
+				isFacingUp: false,
 			}
 			this.cards.push(newCard)
 		}
 	}
-
 }

@@ -1,6 +1,10 @@
 <template>
   	<div class="deck fullscreen" v-if="cards">
-    	<card v-for="card in cards" :card="card"/>
+    	<app-card 
+			v-for="card in cards" 
+			:card="card"
+			:key="card.id"
+		/>
 		<div class="bottom text-center">
 			<router-link to="/hand">Hand</router-link>
 		</div>
@@ -13,14 +17,14 @@
 <script lang="ts">
 import { Component, Vue } from 'vue-property-decorator'
 import { Getter } from 'vuex-class'
-import Card from "@/components/card.vue"
+import CardComponent from "@/components/card.component.vue"
+import { Card } from "@/models/card.model"
 
 @Component({
-	components: { Card }
+	components: { "app-card": CardComponent }
 })
-
 export default class Deck extends Vue {
-	@Getter cards: any;
+	@Getter cards: Card[]
 }
 </script>
 
