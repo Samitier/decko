@@ -1,13 +1,13 @@
 import { GetterTree } from "vuex"
-import State from './state'
+import State from "./state"
 
-const getters = <GetterTree<State, any>> {
-    cards(state: State): any {
-        return state.cards
-    },
-    card: (state: State) => ((id: number) => 
-        state.cards.find(card => card.id === id)
-    ),
-}
+const getters = {
+	cards(state: State): any {
+		return state.cards
+	},
+	card: (state: State) => ((id: number) =>
+		state.cards.find(card => card.id === id)
+	),
+} as GetterTree<State, any>
 
 export default getters
