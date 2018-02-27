@@ -34,7 +34,6 @@ export default class CardComponent extends Vue {
 
 	@Prop() card: Card;
 
-
 	mounted() {
 		window.addEventListener('mousemove', this.move)
 		window.addEventListener('mouseup', this.stopMovement)
@@ -70,7 +69,7 @@ export default class CardComponent extends Vue {
 	move(event: MouseEvent) {
 		if (!this.isMoving) return
 		const 	x = this.card.coordinates.x + (event.clientX - this.startx),
-				y = this.card.coordinates.y + (event.clientY - this.starty)
+				    y = this.card.coordinates.y + (event.clientY - this.starty)
 		this.startx = event.clientX
 		this.starty = event.clientY
 		this.dragCard({
