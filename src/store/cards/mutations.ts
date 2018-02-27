@@ -4,7 +4,6 @@ import State from "./state"
 
 const mutations = {
 	[DRAG_CARD](state: State, data: any) {
-
 		const i = state.cards.findIndex(c => c.id === data.id)
 		state.cards[i].coordinates = data.coordinates
 	},
