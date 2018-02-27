@@ -12,7 +12,6 @@ const actions = {
 	moveCard(store: ActionContext<State, any>, data: any) {
 		store.commit(MOVE_CARD, data)
 	},
-
 } as ActionTree<State, any>
 
 export default actions

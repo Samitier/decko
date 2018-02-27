@@ -1,6 +1,7 @@
 <template>
   	<div
 		class="card noselect"
+
 		@dblclick="onFlipCard"
 		@mousedown="startMovement"
 		:style="style"
@@ -34,12 +35,13 @@ export default class CardComponent extends Vue {
 
 	@Prop() card: Card;
 
+
 	mounted() {
 		window.addEventListener('mousemove', this.move)
 		window.addEventListener('mouseup', this.stopMovement)
 	}
 
-	beforeDestroy() {
+	beforeDestroy () {
 		window.removeEventListener('mousemove', this.move)
 		window.removeEventListener('mouseup', this.stopMovement)
 	}
@@ -94,3 +96,4 @@ border_radius = 4px
 	border-radius border_radius
 	background-color card_color
 </style>
+
