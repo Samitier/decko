@@ -18,7 +18,7 @@ export default class State {
 					y: i + 10,
 				},
 				isFacingUp: false,
-				currentField: "play",
+				currentField: "deck",
 			}
 			this.cards.push(newCard)
 		}

@@ -7,4 +7,3 @@ export interface Card {
 	isFacingUp: boolean,
 	currentField: string
 }
-
