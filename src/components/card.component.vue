@@ -1,7 +1,6 @@
 <template>
   	<div
 		class="card noselect"
-
 		@dblclick="onFlipCard"
 		@mousedown="startMovement"
 		:style="style"
@@ -96,4 +95,3 @@ border_radius = 4px
 	border-radius border_radius
 	background-color card_color
 </style>
-
