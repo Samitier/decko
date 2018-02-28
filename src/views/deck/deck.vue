@@ -1,7 +1,7 @@
 <template>
-  	<div class="deck fullscreen" v-if="cards">
-    	<app-card 
-			v-for="card in cards" 
+  	<div class="deck fullscreen">
+    	<app-card
+			v-for="card in cards('deck')"
 			:card="card"
 			:key="card.id"
 		/>
@@ -24,7 +24,7 @@ import { Card } from "@/models/card.model"
 	components: { "app-card": CardComponent }
 })
 export default class Deck extends Vue {
-	@Getter cards: Card[]
+  @Getter cards: Card[]
 }
 </script>
 
@@ -39,6 +39,5 @@ export default class Deck extends Vue {
 .bottom
 	left 0
 .right
-	top 0 
+	top 0
 </style>
-

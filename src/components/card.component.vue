@@ -1,6 +1,6 @@
 <template>
-  	<div 
-		class="card noselect" 
+  	<div
+		class="card noselect"
 		@dblclick="onFlipCard"
 		@mousedown="startMovement"
 		:style="style"
@@ -16,23 +16,23 @@
 
 <script lang="ts">
 import { Component, Vue, Prop } from "vue-property-decorator"
-import { Getter, Action } from "vuex-class"
+import { Action } from "vuex-class"
 import { Card } from "@/models/card.model"
 
 @Component
 export default class CardComponent extends Vue {
-	
+
 	private isMoving: boolean = false
 
 	private startx: number = 0
 	private starty: number = 0
-	
+
 	isFacingUp: boolean = false
 
-	@Action('moveCard') moveCard: any;
+	@Action('dragCard') dragCard: any;
 	@Action('flipCard') flipCard: any;
 
-	@Prop() card: Card
+	@Prop() card: Card;
 
 	mounted() {
 		window.addEventListener('mousemove', this.move)
@@ -69,10 +69,10 @@ export default class CardComponent extends Vue {
 	move(event: MouseEvent) {
 		if (!this.isMoving) return
 		const 	x = this.card.coordinates.x + (event.clientX - this.startx),
-				y = this.card.coordinates.y + (event.clientY - this.starty)
+				    y = this.card.coordinates.y + (event.clientY - this.starty)
 		this.startx = event.clientX
 		this.starty = event.clientY
-		this.moveCard({
+		this.dragCard({
 			id: this.card.id,
 			coordinates: { x, y }
 		})

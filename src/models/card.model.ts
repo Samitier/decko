@@ -4,5 +4,6 @@ export interface Card {
 		x: number,
 		y: number,
 	},
-	isFacingUp: boolean
+	isFacingUp: boolean,
+	currentField: string
 }

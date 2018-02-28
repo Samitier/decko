@@ -1,6 +1,10 @@
 <template>
   	<div class="play fullscreen">
-		This is the play area
+      <app-card
+        v-for="card in cards('play')"
+        :card="card"
+        :key="card.id"
+      />
 		<div class="left middle">
 			<router-link to="/">Deck</router-link>
 		</div>
@@ -12,9 +16,16 @@
 
 <script lang="ts">
 import { Component, Vue } from 'vue-property-decorator'
+import { Getter } from 'vuex-class'
+import CardComponent from "@/components/card.component.vue"
+import { Card } from "@/models/card.model"
 
-@Component
-export default class Play extends Vue {}
+@Component({
+	components: { "app-card": CardComponent }
+})
+export default class Play extends Vue {
+  @Getter cards: Card[]
+}
 </script>
 
 <style lang="stylus" scoped>
