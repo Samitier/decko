@@ -1,3 +1,5 @@
+import { FieldType } from "./field-type.enum"
+
 export interface Card {
 	id: number,
 	coordinates: {
@@ -5,5 +7,5 @@ export interface Card {
 		y: number,
 	},
 	isFacingUp: boolean,
-	currentField: string
+	currentField: FieldType
 }

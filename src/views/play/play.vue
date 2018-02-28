@@ -1,7 +1,7 @@
 <template>
   	<div class="play fullscreen">
       <app-card
-        v-for="card in cards('play')"
+        v-for="card in playCards"
         :card="card"
         :key="card.id"
       />
@@ -19,12 +19,16 @@ import { Component, Vue } from 'vue-property-decorator'
 import { Getter } from 'vuex-class'
 import CardComponent from "@/components/card.component.vue"
 import { Card } from "@/models/card.model"
+import { FieldType } from "@/models/field-type.enum"
 
 @Component({
 	components: { "app-card": CardComponent }
 })
 export default class Play extends Vue {
-  @Getter cards: Card[]
+
+	@Getter cards: Function
+	get playCards() { return this.cards(FieldType.Play) }
+	
 }
 </script>
 
