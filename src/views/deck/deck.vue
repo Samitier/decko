@@ -1,17 +1,20 @@
 <template>
-  	<div class="deck fullscreen">
-    	<app-card
-			v-for="card in cards('deck')"
-			:card="card"
-			:key="card.id"
-		/>
-		<div class="bottom text-center">
-			<router-link to="/hand">Hand</router-link>
+	<div>
+		<div class="deck-bkg fullscreen"></div>
+		<div class="deck fullscreen">
+			<app-card
+				v-for="card in cards('deck')"
+				:card="card"
+				:key="card.id"
+			/>
+			<div class="bottom text-center">
+				<router-link to="/hand">Hand</router-link>
+			</div>
+			<div class="right middle">
+				<router-link to="/play">Play</router-link>
+			</div>
 		</div>
-		<div class="right middle">
-			<router-link to="/play">Play</router-link>
-		</div>
-  	</div>
+	</div>
 </template>
 
 <script lang="ts">
@@ -29,9 +32,11 @@ export default class Deck extends Vue {
 </script>
 
 <style lang="stylus" scoped>
+.deck-bkg 
+	background-color #564E58
 .deck
-	background-color #1c5e59
-	background-image url("/img/textures/asfalt-dark.png")
+	perspective 450px
+	transform-style preserve-3d
 .bottom, .right
 	position absolute
 	bottom 0
