@@ -1,7 +1,7 @@
 <template>
   	<div class="hand">
   		<app-card
-  			v-for="card in cards('hand')"
+  			v-for="card in handCards"
   			:card="card"
   			:key="card.id"
   		/>
@@ -21,11 +21,15 @@ import { Component, Vue } from 'vue-property-decorator'
 import { Getter } from 'vuex-class'
 import CardComponent from "@/components/card.component.vue"
 import { Card } from "@/models/card.model"
+import { FieldType } from "@/models/field-type.enum"
 
 @Component({
-  components: { "app-card": CardComponent }
+  	components: { "app-card": CardComponent }
 })
 export default class Hand extends Vue {
-  @Getter cards: Card[]
+
+  	@Getter cards: Function
+	get handCards() { return this.cards(FieldType.Hand) }
+	
 }
 </script>

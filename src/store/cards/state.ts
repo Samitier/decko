@@ -1,4 +1,5 @@
 import { Card } from "../../models/card.model"
+import { FieldType } from "@/models/field-type.enum"
 
 export default class State {
 
@@ -19,7 +20,7 @@ export default class State {
 				},
 				rotation: 0,
 				isFacingUp: false,
-				currentField: "deck",
+				currentField: FieldType.Deck,
 			}
 			this.cards.push(newCard)
 		}

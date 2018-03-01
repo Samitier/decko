@@ -27,21 +27,11 @@ export default class CardComponent extends Vue {
 
 	isFacingUp: boolean = false
 
-	@Action('dragCard') dragCard: any
-	@Action('flipCard') flipCard: any
-	@Action('rotateCard') rotateCard: any
+	@Action dragCard: any
+	@Action flipCard: any
+	@Action rotateCard: any
 
 	@Prop() card: Card
-
-	mounted() {
-		window.addEventListener('mousemove', this.move)
-		window.addEventListener('mouseup', this.stopMovement)
-	}
-
-	beforeDestroy () {
-		window.removeEventListener('mousemove', this.move)
-		window.removeEventListener('mouseup', this.stopMovement)
-	}
 
 	get style() {
 		return {
@@ -51,6 +41,16 @@ export default class CardComponent extends Vue {
 			top: this.card.coordinates.y + 'px',
 			left: this.card.coordinates.x + 'px',
 		}
+	}
+
+	mounted() {
+		window.addEventListener('mousemove', this.move)
+		window.addEventListener('mouseup', this.stopMovement)
+	}
+
+	beforeDestroy () {
+		window.removeEventListener('mousemove', this.move)
+		window.removeEventListener('mouseup', this.stopMovement)
 	}
 
 	onFlipCard() {
@@ -73,7 +73,7 @@ export default class CardComponent extends Vue {
 	move(event: MouseEvent) {
 		if (!this.isMoving) return
 		const 	x = this.card.coordinates.x + (event.clientX - this.startx),
-				    y = this.card.coordinates.y + (event.clientY - this.starty)
+				y = this.card.coordinates.y + (event.clientY - this.starty)
 		this.startx = event.clientX
 		this.starty = event.clientY
 		this.dragCard({
