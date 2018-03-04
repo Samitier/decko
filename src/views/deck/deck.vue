@@ -1,9 +1,11 @@
 <template>
   	<div class="deck fullscreen">
+			<button @click="shuffle = !shuffle" type="button" name="button"> Barajar </button>
     	<app-card
 			v-for="card in deckCards"
 			:card="card"
 			:key="card.id"
+			:shuffle="shuffle"
 		/>
 		<div class="bottom text-center">
 			<router-link to="/hand">Hand</router-link>
@@ -16,7 +18,7 @@
 
 <script lang="ts">
 import { Component, Vue } from 'vue-property-decorator'
-import { Getter } from 'vuex-class'
+import { Getter, Action } from 'vuex-class'
 import CardComponent from "@/components/card.component.vue"
 import { Card } from "@/models/card.model"
 import { FieldType } from "@/models/field-type.enum"
@@ -25,10 +27,9 @@ import { FieldType } from "@/models/field-type.enum"
 	components: { "app-card": CardComponent }
 })
 export default class Deck extends Vue {
-
 	@Getter cards: Function
 	get deckCards() { return this.cards(FieldType.Deck) }
-	 
+	shuffle: boolean = false
 }
 </script>
 

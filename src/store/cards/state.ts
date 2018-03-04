@@ -15,8 +15,8 @@ export default class State {
 			const newCard: Card = {
 				id: i,
 				coordinates: {
-					x: i + 10,
-					y: i + 10,
+					x: i + 500,
+					y: i + 200,
 				},
 				isFacingUp: false,
 				currentField: FieldType.Deck,

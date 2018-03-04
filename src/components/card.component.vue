@@ -15,7 +15,7 @@
 </template>
 
 <script lang="ts">
-import { Component, Vue, Prop } from "vue-property-decorator"
+import { Component, Vue, Prop, Watch } from "vue-property-decorator"
 import { Action } from "vuex-class"
 import { Card } from "@/models/card.model"
 
@@ -33,11 +33,44 @@ export default class CardComponent extends Vue {
 	@Action flipCard: any
 
 	@Prop() card: Card
+  @Prop() shuffle: boolean
+
+  translate: number = 0
+  zIndex: number = 0
+
+  @Watch('shuffle')
+  onShuffle() {
+    const multiplier =  this.card.id % 2 === 0 ? 1 : -1
+    return new Promise((res, rej) => {
+      setTimeout(() => {
+        this.translate = 120 * multiplier
+        res()
+      }, 400)
+    })
+    .then(() => {
+      return new Promise((res, rej) => {
+        setTimeout(() => {
+          this.zIndex = this.card.id % 2 === 0 ? this.card.id - 1 : this.card.id +1
+          res()
+        }, 400)
+      })
+    })
+    .then(() => {
+      return new Promise((res, rej) => {
+        setTimeout(() => {
+          this.translate = 0
+          res()
+        }, 400)
+      })
+    })
+  }
 
 	get style() {
 		return {
 			top: this.card.coordinates.y + 'px',
-			left: this.card.coordinates.x + 'px'
+			left: this.card.coordinates.x + 'px',
+      transform: `translate(${this.translate}px)`,
+      'z-index': this.zIndex
 		}
 	}
 
@@ -93,4 +126,7 @@ border_radius = 4px
 	border 1px solid grey
 	border-radius border_radius
 	background-color card_color
+	transition-property transform
+	transition-duration 1s, 1s
+
 </style>
