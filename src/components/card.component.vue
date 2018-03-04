@@ -24,9 +24,7 @@ export default class CardComponent extends Vue {
 
 	private startx: number = 0
 	private starty: number = 0
-
-	isFacingUp: boolean = false
-
+// 
 	@Action dragCard: any
 	@Action flipCard: any
 	@Action rotateCard: any
@@ -60,7 +58,6 @@ export default class CardComponent extends Vue {
 
 	onFlipCard() {
 		this.flipCard(this.card.id)
-		this.isFacingUp = !this.isFacingUp
 	}
 
 	startMovement(event: MouseEvent) {
@@ -107,5 +104,6 @@ back_border_radius = border_radius / 2
 	margin .8em
 	border-radius back_border_radius
 	background-color #211b36
-	background-image url("/img/textures/escheresque-dark.png");
+	background-image url("/img/textures/escheresque-dark.png")
+
 </style>
