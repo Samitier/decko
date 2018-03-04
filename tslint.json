@@ -11,6 +11,6 @@
     "object-literal-sort-keys": false,
 	"no-consecutive-blank-lines": false,
 	"semicolon": [true, "never"],
-	"arrow-parens": false
+	"arrow-parens": false,
   }
 }

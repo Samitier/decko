@@ -1,8 +1,8 @@
 <template>
   	<div
 		class="card noselect"
-		@dblclick="onFlipCard"
-		@mousedown="startMovement"
+		@contextmenu.prevent="onFlipCard"
+		@mousedown.left="startMovement"
 		:style="style"
 	>
 		<div class="face" v-if="card.isFacingUp">
@@ -34,13 +34,18 @@ export default class CardComponent extends Vue {
 	@Prop() card: Card
 
 	get style() {
-		return {
-			transform: `rotateX(${ this.isMoving ? 0 : 10 }deg ) ` 
-				+ `rotateZ(${ this.isMoving ? 0 : this.card.rotation }deg) `
-				+ `translateZ(${ this.isMoving ? 40 : 0 }px)`,
-			top: this.card.coordinates.y + 'px',
-			left: this.card.coordinates.x + 'px',
+		let style = {
+			transform: `rotateZ(${ this.card.rotation }deg) translateZ(${ this.card.coordinates.z }px)`,
+			top: this.card.coordinates.y + "px",
+			left: this.card.coordinates.x + "px",
+			"box-shadow": "0 0 0 1px #00000038"
 		}
+		if (this.isMoving) {
+			const zCoord = this.card.coordinates.z + 40
+			style.transform = `rotateX(-8deg) translateZ(${ zCoord }px)`
+			style["box-shadow"] = "0 0 13px 3px #00000038"
+		}
+		return style
 	}
 
 	mounted() {
@@ -67,7 +72,7 @@ export default class CardComponent extends Vue {
 	stopMovement(event: MouseEvent) {
 		if (!this.isMoving) return
 		this.isMoving = false
-		// this.card.rotation = Math.floor(Math.random() * 10) - 5
+		this.rotateCard(this.card.id)
 	}
 
 	move(event: MouseEvent) {
@@ -97,7 +102,7 @@ back_border_radius = border_radius / 2
 	border 1px solid darken(white, 25)
 	border-radius border_radius
 	background-color card_color
-	transition transform 0.3s
+	transition transform 0.3s, box-shadow 0.3s
 .back
 	margin .8em
 	border-radius back_border_radius

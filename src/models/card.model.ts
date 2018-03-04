@@ -5,6 +5,7 @@ export interface Card {
 	coordinates: {
 		x: number,
 		y: number,
+		z: number,
 	},
 	rotation: number,
 	isFacingUp: boolean,

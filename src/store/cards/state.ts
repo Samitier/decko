@@ -15,8 +15,9 @@ export default class State {
 			const newCard: Card = {
 				id: i,
 				coordinates: {
-					x: i + 100,
-					y: i + 100,
+					x: i + 200,
+					y: i + 200,
+					z: i,
 				},
 				rotation: 0,
 				isFacingUp: false,
