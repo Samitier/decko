@@ -7,6 +7,7 @@ export interface Card {
 		y: number,
 		z: number,
 	},
+	content: string,
 	rotation: number,
 	isFacingUp: boolean,
 	currentField: FieldType

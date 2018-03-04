@@ -2,13 +2,20 @@
   	<div
 		class="card noselect"
 		@contextmenu.prevent="onFlipCard"
-		@mousedown.left="startMovement"
 		:style="style"
 	>
-		<div class="face" v-if="card.isFacingUp">
-			the face of the card
+		<div 
+			class="face" 
+			v-if="card.isFacingUp"
+			@mousedown.left="startMovement"
+		>
+			{{ card.content }}
 		</div>
-		<div class="back fullscreen" v-else></div>
+		<div 
+			class="back fullscreen"
+				@mousedown.left="startMovement"
+			v-else
+		></div>
   	</div>
 </template>
 
@@ -24,7 +31,7 @@ export default class CardComponent extends Vue {
 
 	private startx: number = 0
 	private starty: number = 0
-// 
+
 	@Action dragCard: any
 	@Action flipCard: any
 	@Action rotateCard: any
@@ -36,12 +43,12 @@ export default class CardComponent extends Vue {
 			transform: `rotateZ(${ this.card.rotation }deg) translateZ(${ this.card.coordinates.z }px)`,
 			top: this.card.coordinates.y + "px",
 			left: this.card.coordinates.x + "px",
-			"box-shadow": "0 0 0 1px #00000038"
+			"box-shadow": "0 0 0 1px #0000003F"
 		}
 		if (this.isMoving) {
 			const zCoord = this.card.coordinates.z + 40
 			style.transform = `rotateX(-8deg) translateZ(${ zCoord }px)`
-			style["box-shadow"] = "0 0 13px 3px #00000038"
+			style["box-shadow"] = "0 0 13px 3px #0000003F"
 		}
 		return style
 	}
@@ -105,5 +112,12 @@ back_border_radius = border_radius / 2
 	border-radius back_border_radius
 	background-color #211b36
 	background-image url("/img/textures/escheresque-dark.png")
+// DEBUG ONLY //
+.face
+	padding-top 4px
+	line-height 1
+	text-align center
+	font-size 240px
+//
 
 </style>
