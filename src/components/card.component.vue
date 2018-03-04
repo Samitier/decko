@@ -13,7 +13,7 @@
 		</div>
 		<div 
 			class="back fullscreen"
-				@mousedown.left="startMovement"
+			@mousedown.left="startMovement"
 			v-else
 		></div>
   	</div>
@@ -43,7 +43,7 @@ export default class CardComponent extends Vue {
 			transform: `rotateZ(${ this.card.rotation }deg) translateZ(${ this.card.coordinates.z }px)`,
 			top: this.card.coordinates.y + "px",
 			left: this.card.coordinates.x + "px",
-			"box-shadow": "0 0 0 1px #0000003F"
+			"box-shadow": "0 0 1px 1px #0000003F"
 		}
 		if (this.isMoving) {
 			const zCoord = this.card.coordinates.z + 40
@@ -94,7 +94,7 @@ export default class CardComponent extends Vue {
 </script>
 
 <style lang="stylus" scoped>
-card_width = 180px
+card_width = 190px
 card_height = card_width * 1.4
 card_color = white
 border_radius = 10px
@@ -103,7 +103,7 @@ back_border_radius = border_radius / 2
 	position absolute
 	width card_width
 	height card_height
-	border 1px solid darken(white, 25)
+	border 1px solid darken(white, 20)
 	border-radius border_radius
 	background-color card_color
 	transition transform 0.3s, box-shadow 0.3s
@@ -117,7 +117,7 @@ back_border_radius = border_radius / 2
 	padding-top 4px
 	line-height 1
 	text-align center
-	font-size 240px
+	font-size 256px
 //
 
 </style>

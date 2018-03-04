@@ -1,6 +1,8 @@
 <template>
 	<div>
-		<div class="deck-bkg fullscreen"></div>
+		<div class="deck-bkg fullscreen">
+			<div class="fullscreen middle bkg-decoration"><h1>DECKO</h1></div>
+		</div>
 		<div class="deck fullscreen">
 			<app-card
 				v-for="card in deckCards"
@@ -36,8 +38,20 @@ export default class Deck extends Vue {
 </script>
 
 <style lang="stylus" scoped>
+bkg_color = #433d44
+bkg_decoration_color = darken(bkg_color, 7)
 .deck-bkg 
-	background-color #564E58
+	background-color bkg_color
+	background-image url("/img/textures/dark-stripes-light.png")
+.bkg-decoration
+	opacity 0.6
+	margin 1.5rem
+	border 8px solid bkg_color
+	>h1
+		color bkg_color
+		margin auto
+		font-size 26vw
+	
 .deck
 	perspective 450px
 	transform-style preserve-3d
