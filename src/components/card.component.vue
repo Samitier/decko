@@ -2,9 +2,9 @@
   	<div
 		class="card noselect"
     v-bind:class="{
-      shuffle && card.id % 2 === 0 : isShufflingleft,
-      shuffle && card.id % 2 !== 9 : isShufflingRight
-      }"
+      'shuffle-left': card.isShuffling && card.id % 2 === 0,
+      'shuffle-right': card.isShuffling && card.id % 2 !== 0
+    }"
 		@dblclick="onFlipCard"
 		@mousedown="startMovement"
 		:style="style"
@@ -13,7 +13,7 @@
 			the face of the card
 		</div>
     	<div class="back" v-else>
-			the back of the card
+			the back of the card {{card.id}}
 		</div>
   	</div>
 </template>
@@ -30,7 +30,6 @@ export default class CardComponent extends Vue {
 
 	private startx: number = 0
 	private starty: number = 0
-  isShuffling: boolean = false
 
 	isFacingUp: boolean = false
 
@@ -42,12 +41,6 @@ export default class CardComponent extends Vue {
 
   translate: number = 0
   zIndex: number = 0
-
-  @Watch('shuffle')
-  onShuffle() {
-    this.isShuffling = true
-
-  }
 
 	get style() {
 		return {
@@ -98,12 +91,23 @@ export default class CardComponent extends Vue {
 </script>
 
 <style lang="stylus" scoped>
-@keyframes shuffle {
+@keyframes shuffleLeft {
   0% {
-    transform: translateX(20px)
+    transform: translate(20px, 10px)
   }
   40% {
-    transform: translateX(200px)
+    transform: translateX(108px)
+  }
+  100% {
+    transform: translateX(0px)
+  }
+}
+@keyframes shuffleRight {
+  0% {
+    transform: translate(-20px, 10px)
+  }
+  40% {
+    transform: translateX(-108px)
   }
   100% {
     transform: translateX(0px)
@@ -123,9 +127,13 @@ border_radius = 4px
 	background-color card_color
 	transition-property transform
 	transition-duration 1s, 1s
-.shuffle
-  animation-name: shuffle;
+.shuffle-left
+  animation-name: shuffleLeft;
   animation-duration: 1s;
+.shuffle-right
+  animation-name: shuffleRight;
+  animation-duration: 1s;
+
 
 
 </style>

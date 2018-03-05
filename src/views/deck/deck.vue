@@ -1,11 +1,10 @@
 <template>
   	<div class="deck fullscreen">
-			<button @click="shuffle = !shuffle" type="button" name="button"> Shufle </button>
+			<button @click="onShuffle" type="button" name="button"> Shufle </button>
     	<app-card
 			v-for="card in deckCards"
 			:card="card"
 			:key="card.id"
-			:shuffle="shuffle"
 		/>
 		<div class="bottom text-center">
 			<router-link to="/hand">Hand</router-link>
@@ -28,8 +27,27 @@ import { FieldType } from "@/models/field-type.enum"
 })
 export default class Deck extends Vue {
 	@Getter cards: Function
+  @Action shuffleCard: any
+
 	get deckCards() { return this.cards(FieldType.Deck) }
-	shuffle: boolean = false
+
+	onShuffle() {
+    this.deckCards.reduce((p, item) => {
+      return p.then(()  => {
+          return this.shuffle(item.id);
+      });
+    }, Promise.resolve())
+  }
+
+  shuffle(id) {
+    return new Promise((resolve, reject) => {
+      setTimeout(() => {
+        this.shuffleCard(id)
+        resolve()
+      },10)
+    })
+  }
+
 }
 </script>
 

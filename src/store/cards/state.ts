@@ -11,7 +11,7 @@ export default class State {
 	}
 
 	private getInitialCards() {
-		for (let i = 0; i < 10; i++) {
+		for (let i = 0; i < 30; i++) {
 			const newCard: Card = {
 				id: i,
 				coordinates: {
@@ -19,6 +19,7 @@ export default class State {
 					y: i + 200,
 				},
 				isFacingUp: false,
+				isShuffling: false,
 				currentField: FieldType.Deck,
 			}
 			this.cards.push(newCard)
