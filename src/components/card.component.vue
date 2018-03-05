@@ -1,7 +1,10 @@
 <template>
   	<div
 		class="card noselect"
-    v-bind:class="{ shuffle: isShuffling }"
+    v-bind:class="{
+      shuffle && card.id % 2 === 0 : isShufflingleft,
+      shuffle && card.id % 2 !== 9 : isShufflingRight
+      }"
 		@dblclick="onFlipCard"
 		@mousedown="startMovement"
 		:style="style"
