@@ -1,6 +1,6 @@
 <template>
   	<div class="deck fullscreen">
-			<button @click="shuffle = !shuffle" type="button" name="button"> Barajar </button>
+			<button @click="shuffle = !shuffle" type="button" name="button"> Shufle </button>
     	<app-card
 			v-for="card in deckCards"
 			:card="card"

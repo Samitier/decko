@@ -1,6 +1,7 @@
 <template>
   	<div
 		class="card noselect"
+    v-bind:class="{ shuffle: isShuffling }"
 		@dblclick="onFlipCard"
 		@mousedown="startMovement"
 		:style="style"
@@ -26,6 +27,7 @@ export default class CardComponent extends Vue {
 
 	private startx: number = 0
 	private starty: number = 0
+  isShuffling: boolean = false
 
 	isFacingUp: boolean = false
 
@@ -40,29 +42,8 @@ export default class CardComponent extends Vue {
 
   @Watch('shuffle')
   onShuffle() {
-    const multiplier =  this.card.id % 2 === 0 ? 1 : -1
-    return new Promise((res, rej) => {
-      setTimeout(() => {
-        this.translate = 120 * multiplier
-        res()
-      }, 400)
-    })
-    .then(() => {
-      return new Promise((res, rej) => {
-        setTimeout(() => {
-          this.zIndex = this.card.id % 2 === 0 ? this.card.id - 1 : this.card.id +1
-          res()
-        }, 400)
-      })
-    })
-    .then(() => {
-      return new Promise((res, rej) => {
-        setTimeout(() => {
-          this.translate = 0
-          res()
-        }, 400)
-      })
-    })
+    this.isShuffling = true
+
   }
 
 	get style() {
@@ -114,6 +95,17 @@ export default class CardComponent extends Vue {
 </script>
 
 <style lang="stylus" scoped>
+@keyframes shuffle {
+  0% {
+    transform: translateX(20px)
+  }
+  40% {
+    transform: translateX(200px)
+  }
+  100% {
+    transform: translateX(0px)
+  }
+}
 card_width = 200px
 card_height = 300px
 card_color = white
@@ -128,5 +120,9 @@ border_radius = 4px
 	background-color card_color
 	transition-property transform
 	transition-duration 1s, 1s
+.shuffle
+  animation-name: shuffle;
+  animation-duration: 1s;
+
 
 </style>
