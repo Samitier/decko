@@ -1,11 +1,18 @@
 import { MutationTree } from "vuex"
-import { DRAG_CARD, FLIP_CARD, MOVE_CARD } from "./constants"
+import { DRAG_CARD, FLIP_CARD, MOVE_CARD, ROTATE_CARD } from "./constants"
 import State from "./state"
 
 const mutations = {
 	[DRAG_CARD](state: State, data: any) {
-		const i = state.cards.findIndex(c => c.id === data.id)
-		state.cards[i].coordinates = data.coordinates
+		const card = state.cards.find(c => c.id === data.id)
+		if (!card) return
+		let maxZ = 0
+		for (const { coordinates } of state.cards) {
+			if (maxZ < coordinates.z) maxZ = coordinates.z
+			if (coordinates.z > card.coordinates.z) coordinates.z--
+		}
+		const { x, y } = data.coordinates
+		card.coordinates = { x, y, z: maxZ }
 	},
 	[FLIP_CARD](state: State, id: number) {
 		const i = state.cards.findIndex(c => c.id === id)
@@ -14,6 +21,10 @@ const mutations = {
 	[MOVE_CARD](state: State, data: any) {
 		const i = state.cards.findIndex(c => c.id === data.id)
 		state.cards[i].currentField = data.field
+	},
+	[ROTATE_CARD](state: State, id: number) {
+		const i = state.cards.findIndex(c => c.id === id)
+		state.cards[i].rotation = Math.floor(Math.random() * 10) - 5
 	},
 } as MutationTree<State>
 
