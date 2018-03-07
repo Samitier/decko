@@ -1,20 +1,19 @@
 <template>
   	<div
 		class="card noselect"
+		@contextmenu.prevent="onFlipCard"
+		:style="style"
     v-bind:class="{
       'shuffle-left': card.shuffle.isShuffling && card.shuffle.direction,
       'shuffle-right': card.shuffle.isShuffling && !card.shuffle.direction
     }"
-
-		@dblclick="onFlipCard"
-		@mousedown="startMovement"
-		:style="style"
 	>
-    	<div class="face" v-if="card.isFacingUp">
-			the face of the card
-		</div>
-    	<div class="back" v-else>
-			the back of the card {{card.id}}
+		<div
+			class="face"
+			v-if="card.isFacingUp"
+			@mousedown.left="startMovement"
+		>
+			{{ card.content }}
 		</div>
 		<div
 			class="back fullscreen"
@@ -23,6 +22,8 @@
 		></div>
   	</div>
 </template>
+
+
 
 <script lang="ts">
 import { Component, Vue, Prop, Watch } from "vue-property-decorator"
@@ -48,14 +49,14 @@ export default class CardComponent extends Vue {
 
 	get style() {
 		let style = {
-			transform: `rotateZ(${ this.card.rotation }deg) translateZ(${ this.card.coordinates.z }px)`,
+			transform: `rotateZ(${ this.card.rotation }deg) `,
 			top: this.card.coordinates.y + "px",
 			left: this.card.coordinates.x + "px",
 			"box-shadow": "0 0 1px 1px #0000003F"
 		}
 		if (this.isMoving) {
 			const zCoord = this.card.coordinates.z + 40
-			style.transform = `rotateX(-8deg) translateZ(${ zCoord }px)`
+			style["z-index"] = zCoord
 			style["box-shadow"] = "0 0 13px 3px #0000003F"
 		}
 		return style
@@ -90,7 +91,7 @@ export default class CardComponent extends Vue {
 	move(event: MouseEvent) {
 		if (!this.isMoving) return
 		const 	x = this.card.coordinates.x + (event.clientX - this.startx),
-				y = this.card.coordinates.y + (event.clientY - this.starty)
+				    y = this.card.coordinates.y + (event.clientY - this.starty)
 		this.startx = event.clientX
 		this.starty = event.clientY
 		this.dragCard({
