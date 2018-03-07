@@ -19,7 +19,7 @@ const mutations = {
 		const i = state.cards.findIndex(c => c.id === data.id)
 		state.cards[i].shuffle = {
 			isShuffling: true,
-			direction: data.direction
+			direction: data.direction,
 		}
 	},
 } as MutationTree<State>

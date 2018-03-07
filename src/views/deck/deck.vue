@@ -36,7 +36,7 @@ export default class Deck extends Vue {
       return p.then(()  => {
           return this.shuffle({
             id: card.id,
-            direction: Math.round(Math.random())
+            direction: card.id % 2 === 0
           });
       });
     }, Promise.resolve())
@@ -47,7 +47,7 @@ export default class Deck extends Vue {
       setTimeout(() => {
         this.shuffleCard(data)
         resolve()
-      },10)
+      },5)
     })
   }
 

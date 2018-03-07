@@ -38,7 +38,6 @@ export default class CardComponent extends Vue {
 	@Action flipCard: any
 
 	@Prop() card: Card
-  @Prop() shuffle: boolean
 
   translate: number = 0
   zIndex: number = 0
@@ -94,13 +93,13 @@ export default class CardComponent extends Vue {
 <style lang="stylus" scoped>
 @keyframes shuffleLeft {
   0% {
-    transform: translate(20px, 10px)
+    transform: translate(20px, 20px)
   }
   40% {
-    transform: translateX(108px)
+    transform: translate(110px)
   }
   100% {
-    transform: translateX(0px)
+    transform: translate(0px)
   }
 }
 @keyframes shuffleRight {
@@ -108,10 +107,10 @@ export default class CardComponent extends Vue {
     transform: translate(-20px, 10px)
   }
   40% {
-    transform: translateX(-108px)
+    transform: translate(-110px)
   }
   100% {
-    transform: translateX(0px)
+    transform: translate(0px)
   }
 }
 card_width = 200px
@@ -127,15 +126,13 @@ border_radius = 4px
 	border-radius border_radius
 	background-color card_color
 	transition-property transform
-  transition-property left
-  transition-property top
 	transition-duration 1s, 1s
 .shuffle-left
   animation-name: shuffleLeft;
-  animation-duration: 2s;
+  animation-duration: 1s;
 .shuffle-right
   animation-name: shuffleRight;
-  animation-duration: 2s;
+  animation-duration: 1s;
 
 
 
