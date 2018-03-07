@@ -1,5 +1,5 @@
 import { ActionTree, ActionContext } from "vuex"
-import { DRAG_CARD, FLIP_CARD, MOVE_CARD, SHUFFLE_CARD } from "./constants"
+import { DRAG_CARD, FLIP_CARD, MOVE_CARD, ROTATE_CARD, SHUFFLE_CARD } from "./constants"
 import State from "./state"
 
 const actions = {
@@ -11,6 +11,9 @@ const actions = {
 	},
 	moveCard(store: ActionContext<State, any>, data: any) {
 		store.commit(MOVE_CARD, data)
+	},
+	rotateCard(store: ActionContext<State, any>, id: number) {
+		store.commit(ROTATE_CARD, id)
 	},
 	shuffleCard(store: ActionContext<State, any>, data: any) {
 		store.commit(SHUFFLE_CARD, data)

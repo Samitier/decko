@@ -16,6 +16,11 @@
     	<div class="back" v-else>
 			the back of the card {{card.id}}
 		</div>
+		<div
+			class="back fullscreen"
+			@mousedown.left="startMovement"
+			v-else
+		></div>
   	</div>
 </template>
 
@@ -32,10 +37,9 @@ export default class CardComponent extends Vue {
 	private startx: number = 0
 	private starty: number = 0
 
-	isFacingUp: boolean = false
-
 	@Action dragCard: any
 	@Action flipCard: any
+	@Action rotateCard: any
 
 	@Prop() card: Card
 
@@ -43,12 +47,18 @@ export default class CardComponent extends Vue {
   zIndex: number = 0
 
 	get style() {
-		return {
-			top: this.card.coordinates.y + 'px',
-			left: this.card.coordinates.x + 'px',
-      transform: `translate(${this.translate}px)`,
-      'z-index': this.zIndex
+		let style = {
+			transform: `rotateZ(${ this.card.rotation }deg) translateZ(${ this.card.coordinates.z }px)`,
+			top: this.card.coordinates.y + "px",
+			left: this.card.coordinates.x + "px",
+			"box-shadow": "0 0 1px 1px #0000003F"
 		}
+		if (this.isMoving) {
+			const zCoord = this.card.coordinates.z + 40
+			style.transform = `rotateX(-8deg) translateZ(${ zCoord }px)`
+			style["box-shadow"] = "0 0 13px 3px #0000003F"
+		}
+		return style
 	}
 
 	mounted() {
@@ -63,7 +73,6 @@ export default class CardComponent extends Vue {
 
 	onFlipCard() {
 		this.flipCard(this.card.id)
-		this.isFacingUp = !this.isFacingUp
 	}
 
 	startMovement(event: MouseEvent) {
@@ -73,7 +82,9 @@ export default class CardComponent extends Vue {
 	}
 
 	stopMovement(event: MouseEvent) {
+		if (!this.isMoving) return
 		this.isMoving = false
+		this.rotateCard(this.card.id)
 	}
 
 	move(event: MouseEvent) {
@@ -113,16 +124,17 @@ export default class CardComponent extends Vue {
     transform: translate(0px)
   }
 }
-card_width = 200px
-card_height = 300px
-card_color = white
-border_radius = 4px
+card_width = 190px
+card_height = card_width * 1.4
 
+card_color = white
+border_radius = 10px
+back_border_radius = border_radius / 2
 .card
 	position absolute
 	width card_width
 	height card_height
-	border 1px solid grey
+	border 1px solid darken(white, 20)
 	border-radius border_radius
 	background-color card_color
 	transition-property transform
@@ -133,7 +145,19 @@ border_radius = 4px
 .shuffle-right
   animation-name: shuffleRight;
   animation-duration: 1s;
-
+  transition transform 0.3s, box-shadow 0.3s
+.back
+	margin .8em
+	border-radius back_border_radius
+	background-color #211b36
+	background-image url("/img/textures/escheresque-dark.png")
+// DEBUG ONLY //
+.face
+	padding-top 4px
+	line-height 1
+	text-align center
+	font-size 256px
+//
 
 
 </style>

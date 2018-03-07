@@ -5,7 +5,10 @@ export interface Card {
 	coordinates: {
 		x: number,
 		y: number,
+		z: number,
 	},
+	content: string,
+	rotation: number,
 	isFacingUp: boolean,
 	shuffle: any,
 	currentField: FieldType
