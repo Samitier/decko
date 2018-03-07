@@ -7,6 +7,6 @@ export interface Card {
 		y: number,
 	},
 	isFacingUp: boolean,
-	isShuffling: boolean,
+	shuffle: any,
 	currentField: FieldType
 }

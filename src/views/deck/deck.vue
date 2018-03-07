@@ -32,17 +32,20 @@ export default class Deck extends Vue {
 	get deckCards() { return this.cards(FieldType.Deck) }
 
 	onShuffle() {
-    this.deckCards.reduce((p, item) => {
+    this.deckCards.reduce((p: any, card: any) => {
       return p.then(()  => {
-          return this.shuffle(item.id);
+          return this.shuffle({
+            id: card.id,
+            direction: Math.round(Math.random())
+          });
       });
     }, Promise.resolve())
   }
 
-  shuffle(id) {
+  shuffle(data: any) {
     return new Promise((resolve, reject) => {
       setTimeout(() => {
-        this.shuffleCard(id)
+        this.shuffleCard(data)
         resolve()
       },10)
     })

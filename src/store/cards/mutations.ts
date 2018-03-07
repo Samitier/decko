@@ -15,9 +15,12 @@ const mutations = {
 		const i = state.cards.findIndex(c => c.id === data.id)
 		state.cards[i].currentField = data.field
 	},
-	[SHUFFLE_CARD](state: State, id: number) {
-		const i = state.cards.findIndex(c => c.id === id)
-		state.cards[i].isShuffling = true
+	[SHUFFLE_CARD](state: State, data: any) {
+		const i = state.cards.findIndex(c => c.id === data.id)
+		state.cards[i].shuffle = {
+			isShuffling: true,
+			direction: data.direction
+		}
 	},
 } as MutationTree<State>
 

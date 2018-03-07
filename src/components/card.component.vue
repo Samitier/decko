@@ -2,9 +2,10 @@
   	<div
 		class="card noselect"
     v-bind:class="{
-      'shuffle-left': card.isShuffling && card.id % 2 === 0,
-      'shuffle-right': card.isShuffling && card.id % 2 !== 0
+      'shuffle-left': card.shuffle.isShuffling && card.shuffle.direction,
+      'shuffle-right': card.shuffle.isShuffling && !card.shuffle.direction
     }"
+
 		@dblclick="onFlipCard"
 		@mousedown="startMovement"
 		:style="style"
@@ -126,13 +127,15 @@ border_radius = 4px
 	border-radius border_radius
 	background-color card_color
 	transition-property transform
+  transition-property left
+  transition-property top
 	transition-duration 1s, 1s
 .shuffle-left
   animation-name: shuffleLeft;
-  animation-duration: 1s;
+  animation-duration: 2s;
 .shuffle-right
   animation-name: shuffleRight;
-  animation-duration: 1s;
+  animation-duration: 2s;
 
 
 

@@ -12,8 +12,8 @@ const actions = {
 	moveCard(store: ActionContext<State, any>, data: any) {
 		store.commit(MOVE_CARD, data)
 	},
-	shuffleCard(store: ActionContext<State, any>, id: number) {
-		store.commit(SHUFFLE_CARD, id)
+	shuffleCard(store: ActionContext<State, any>, data: any) {
+		store.commit(SHUFFLE_CARD, data)
 	},
 } as ActionTree<State, any>
 
