@@ -24,8 +24,7 @@ export enum MessageType {
 export class PeerChannel {
 
 	private readonly serverPath = '/peer'
-
-	private peer: typeof Peer
+	private peer: any
 	private connections: Map<string, any> = new Map()
 
 	constructor (
@@ -33,7 +32,7 @@ export class PeerChannel {
 		private onMessageReceivedCb: Function,
 		private onPeerConnected: Function
 	) {
-		this.initPeer()
+		this._initPeer()
 	}
 
 	connect (key: string): Promise<any> {
@@ -43,7 +42,7 @@ export class PeerChannel {
 				// Set listener for incoming responses
 				connection.on(
 					PeerEvent.data, 
-					(message: string) => this.onMessageReceived(connection, JSON.parse(message))
+					(message: string) => this._onMessageReceived(connection, message)
 				)
 				// Saving the connection
 				this.connections.set(key, connection)
@@ -55,24 +54,23 @@ export class PeerChannel {
 
 	broadcast (message: Message) {
 		this.connections.forEach((connection: any) => {
-			connection.send(JSON.stringify(message))
+			this._send(connection, message)
 		})
 	}
 
-	private initPeer() {
+	private _initPeer() {
 		this.peer = new Peer(
 			this.key,
 			{ host: location.hostname, port: location.port, path: this.serverPath }
 		)
 		this.peer.on(PeerEvent.connection, (connection: any) => {
 			// Sending ids of the rest of the channel members
-			connection.send(
-				JSON.stringify(new Message(MessageType.channelMembers, [ ...this.connections.keys()]))
-			)
+			const message = new Message(MessageType.channelMembers, [ ...this.connections.keys()])
+			this._send(connection, message)
 			// Set listener for incoming messages
 			connection.on(
 				PeerEvent.data, 
-				(message: string) => this.onMessageReceived(connection, JSON.parse(message))
+				(message: string) => this._onMessageReceived(connection, message)
 			)
 			// Saving connection
 			this.connections.set(connection.peer, connection)
@@ -82,14 +80,19 @@ export class PeerChannel {
 		this.peer.on(PeerEvent.error, (data: any) => console.error(data))
 	}
 
-	private onMessageReceived (connection: any, message: Message) {
+	private _send(connection: any, message: Message) {
+		connection.send(JSON.stringify(message))
+	}
+
+	private _onMessageReceived (connection: any, messageStr: string) {
+		const message = JSON.parse(messageStr)
 		if (message.type === MessageType.channelMembers) {
-			return this.connectToChannelMembers(message.data)
+			return this._connectToChannelMembers(message.data)
 		}
 		this.onMessageReceivedCb(connection, message)
 	}
 
-	private connectToChannelMembers(keys: string[]) {
+	private _connectToChannelMembers(keys: string[]) {
 		for (const key of keys) {
 			if (key === this.key || this.connections.has(key)) continue
 			this.connect(key)
